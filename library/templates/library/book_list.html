@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Books{% endblock %}
+{% block content %}
+<h1>Books</h1>
+<p><a href="{% url 'library:book_create' %}" class="btn btn-primary">Add Book</a></p>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>ISBN</th>
+            <th>Author</th>
+            <th>Published</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in books %}
+        <tr>
+            <td>{{ b.pk }}</td>
+            <td>{{ b.title }}</td>
+            <td>{{ b.isbn }}</td>
+            <td>{{ b.author.name }}</td>
+            <td>{{ b.published|default:"—" }}</td>
+            <td>
+                <a href="{% url 'library:book_delete' b.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No books yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

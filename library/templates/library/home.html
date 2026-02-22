@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Library – Home{% endblock %}
+{% block content %}
+<h1>Library System</h1>
+<p>Manage authors, books, members, and loans.</p>
+<ul>
+    <li><a href="{% url 'library:author_list' %}">Authors</a> – List, create, delete</li>
+    <li><a href="{% url 'library:book_list' %}">Books</a> – List, create, delete</li>
+    <li><a href="{% url 'library:member_list' %}">Members</a> – List, create, delete</li>
+    <li><a href="{% url 'library:loan_list' %}">Loans</a> – List, create, delete</li>
+</ul>
+{% endblock %}

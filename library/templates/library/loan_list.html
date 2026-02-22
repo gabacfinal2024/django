@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Loans{% endblock %}
+{% block content %}
+<h1>Loans</h1>
+<p><a href="{% url 'library:loan_create' %}" class="btn btn-primary">Add Loan</a></p>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Loan date</th>
+            <th>Due date</th>
+            <th>Return date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for l in loans %}
+        <tr>
+            <td>{{ l.pk }}</td>
+            <td>{{ l.book.title }}</td>
+            <td>{{ l.member.name }}</td>
+            <td>{{ l.loan_date }}</td>
+            <td>{{ l.due_date }}</td>
+            <td>{{ l.return_date|default:"—" }}</td>
+            <td>
+                <a href="{% url 'library:loan_delete' l.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7">No loans yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
