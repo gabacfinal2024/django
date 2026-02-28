@@ -1,10 +1,32 @@
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Author, Book, Member, Loan
+from .serializers import AuthorSerializer
+
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import Author, Book, Member, Loan
+
 from .forms import AuthorForm, BookForm, MemberForm, LoanForm
 
+
+@api_view(['GET', 'POST'])
+def author_list(request):
+
+    if request.method == 'GET':
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def home(request):
     return render(request, 'library/home.html')
